@@ -1,0 +1,349 @@
+diff --git a/src/data/custom-words.ts b/src/data/custom-words.ts
+new file mode 100644
+index 0000000..ef591ea
+--- /dev/null
++++ b/src/data/custom-words.ts
+@@ -0,0 +1,31 @@
++/**
++ * Hand-picked words that must always be valid, regardless of what the
++ * compiled dictionary (`dictionary-data.ts`, from the 178k-word source list)
++ * happens to contain. Checked in addition to, not instead of, that list —
++ * see `isWord()` in `../dictionary.ts`.
++ *
++ * Kept in its own file (rather than merged into the generated wordlist) so a
++ * future `npm run gen:dict` regeneration can never silently drop these.
++ *
++ * Two groups:
++ *  - Requested by name (some are game titles / slang, not standard English,
++ *    so they'd never appear in a general dictionary on their own).
++ *  - General casino/gambling vocabulary added alongside them.
++ */
++export const CUSTOM_WORDS: string[] = [
++  // Requested by name
++  'limbo', 'dice', 'twist', 'blackjack', 'keno', 'crash', 'plinko', 'mines',
++  'hilo', 'roulette', 'wanted', 'bandit', 'anubis', 'shogun', 'skylord',
++  'cherry', 'pop', 'mental', 'merlin', 'rise', 'cards', 'pho', 'sho',
++  'monster', 'pocket',
++
++  // General casino/gambling vocabulary
++  'jackpot', 'wager', 'wagers', 'ante', 'fold', 'raise', 'call', 'bluff',
++  'dealer', 'chip', 'chips', 'stake', 'stakes', 'odds', 'payout', 'payouts',
++  'wheel', 'wheels', 'spin', 'spins', 'reel', 'reels', 'joker', 'ace', 'aces',
++  'flush', 'straight', 'pair', 'poker', 'casino', 'vegas', 'baccarat',
++  'craps', 'bonus', 'wild', 'scatter', 'vault', 'lucky', 'fortune',
++  'treasure', 'gold', 'crown', 'ruby', 'coin', 'coins', 'cash', 'win', 'wins',
++  'winner', 'loot', 'prize', 'respin', 'multiplier', 'freespin', 'bet',
++  'bets', 'table', 'slots', 'slot', 'high', 'roller'
++]
+diff --git a/src/dictionary.ts b/src/dictionary.ts
+index 79a12af..890b9be 100644
+--- a/src/dictionary.ts
++++ b/src/dictionary.ts
+@@ -13,11 +13,22 @@
+  * search with no Set allocation.
+  *
+  * Regenerate with: npm run gen:dict
++ *
++ * Casino words: `./data/custom-words.ts` is checked first, on every lookup,
++ * regardless of length. It's a small hand-maintained list layered on top of
++ * the compiled dictionary, so it survives a `gen:dict` regeneration untouched.
+  */
+ 
+ import { DICT_PACKED, DICT_MAX_LEN, DICT_MIN_LEN } from './data/dictionary-data'
++import { CUSTOM_WORDS } from './data/custom-words'
+ 
+ let buckets: string[] | null = null
++let customSet: Set<string> | null = null
++
++function customWords(): Set<string> {
++  if (!customSet) customSet = new Set(CUSTOM_WORDS.map((w) => w.toLowerCase()))
++  return customSet
++}
+ 
+ function decode(): string[] {
+   const byLength: string[][] = []
+@@ -43,6 +54,7 @@ function decode(): string[] {
+ /** True if `word` (any case) is in the dictionary. */
+ export function isWord(word: string): boolean {
+   const w = word.toLowerCase()
++  if (customWords().has(w)) return true
+   const len = w.length
+   if (len < DICT_MIN_LEN || len > DICT_MAX_LEN) return false
+   if (!buckets) buckets = decode()
+@@ -66,4 +78,5 @@ export const MAX_WORD_LEN = DICT_MAX_LEN
+ /** Warm the dictionary up during scene load so the first placement is not laggy. */
+ export function preloadDictionary(): void {
+   if (!buckets) buckets = decode()
++  customWords()
+ }
+diff --git a/src/generated/layout.ts b/src/generated/layout.ts
+index aa84c30..9fab75e 100644
+--- a/src/generated/layout.ts
++++ b/src/generated/layout.ts
+@@ -20,10 +20,10 @@ export const ZONE_NAMES = ['NORTH', 'SOUTH', 'EAST', 'WEST'] as const
+ export type ZoneName = (typeof ZONE_NAMES)[number]
+ 
+ export const ZONE_LABEL: Record<ZoneName, string> = {
+-  NORTH: 'Frozen Peaks',
+-  SOUTH: 'Sunken Tomb',
+-  EAST: 'Jungle Labyrinth',
+-  WEST: 'Fortress'
++  NORTH: 'The Vault',
++  SOUTH: 'Slots Hall',
++  EAST: 'Roulette Pit',
++  WEST: 'Poker Lounge'
+ }
+ 
+ /** Candidate tile spawn positions (already offset ~1 m above the surface). */
+diff --git a/tools/gen-world.mjs b/tools/gen-world.mjs
+index 9ec9586..1e3c788 100644
+--- a/tools/gen-world.mjs
++++ b/tools/gen-world.mjs
+@@ -74,46 +74,64 @@ const BOARD_Y = 0.28 // top surface of a board cell
+ /* ------------------------------------------------------------------ *
+  * Palette
+  * ------------------------------------------------------------------ */
++// Casino retheme: every key below keeps its original name (so every call
++// site — slab(), addFoundryPlatform(), etc. — needed zero changes) but now
++// carries a casino-appropriate colour instead of its original medieval /
++// jungle / desert / ice value. GLB-based geometry (hedges, the fortress, the
++// pyramids, mountains, trees, rocks, ice platforms) keeps its own baked
++// material regardless of this table — see CASINO_RESKIN.md for what that
++// means and doesn't mean visually.
+ const C = {
+-  // center / aztec
+-  plazaStone: [0.62, 0.56, 0.44],
++  // center / plaza — deep casino-carpet red + gold trim
++  plazaStone: [0.42, 0.06, 0.08],
+   aztecStone: [0.55, 0.48, 0.38],
+-  aztecDark: [0.36, 0.31, 0.24],
++  aztecDark: [0.14, 0.09, 0.07],
+   aztecJade: [0.16, 0.55, 0.42],
+-  aztecGold: [0.85, 0.68, 0.24],
+-  boardFrame: [0.29, 0.2, 0.13],
++  aztecGold: [0.83, 0.66, 0.22],
++  boardFrame: [0.72, 0.55, 0.16],
+   cellNormal: [0.85, 0.79, 0.63],
+   cellDL: [0.55, 0.78, 0.92],
+   cellTL: [0.16, 0.44, 0.78],
+   cellDW: [0.94, 0.55, 0.55],
+   cellTW: [0.83, 0.2, 0.18],
+   cellStar: [0.95, 0.78, 0.25],
+-  // jungle
+-  jungleGround: [0.19, 0.34, 0.16],
++  // EAST — Roulette Pit (was jungle): black/red felt in place of foliage green
++  jungleGround: [0.4, 0.03, 0.05],
+   jungleHedge: [0.13, 0.42, 0.19],
+   jungleHedge2: [0.17, 0.5, 0.24],
+   jungleTrunk: [0.29, 0.21, 0.13],
+   jungleLeaf: [0.2, 0.6, 0.25],
+   jungleStone: [0.35, 0.4, 0.32],
+-  // industrial
+-  indGround: [0.24, 0.24, 0.26],
++  // WEST — Poker Lounge (was industrial foundry): green felt + walnut trim
++  indGround: [0.04, 0.28, 0.15],
+   indSteel: [0.45, 0.47, 0.5],
+   indSteelDark: [0.28, 0.3, 0.33],
+   indRust: [0.55, 0.31, 0.16],
+   indYellow: [0.85, 0.68, 0.12],
+   indPipe: [0.38, 0.4, 0.44],
+-  // egypt
+-  sand: [0.83, 0.72, 0.45],
++  // SOUTH — Slots Hall (was desert tomb): warm amber/gold carpet
++  sand: [0.62, 0.42, 0.1],
+   sandstone: [0.78, 0.65, 0.4],
+   sandstoneDark: [0.6, 0.48, 0.29],
+   egyptGold: [0.87, 0.72, 0.28],
+-  egyptLapis: [0.15, 0.28, 0.6],
+-  // ice
+-  snow: [0.92, 0.95, 0.98],
+-  ice: [0.65, 0.85, 0.95],
+-  iceDeep: [0.4, 0.68, 0.85],
++  egyptLapis: [0.4, 0.06, 0.42],
++  // NORTH — The Vault (was ice/snow): cool silver-chrome + sapphire accent
++  snow: [0.78, 0.8, 0.86],
++  ice: [0.55, 0.62, 0.78],
++  iceDeep: [0.08, 0.13, 0.42],
+   rock: [0.42, 0.44, 0.48],
+-  rockDark: [0.3, 0.32, 0.36]
++  rockDark: [0.3, 0.32, 0.36],
++  // Shared casino accent colours for the new procedural landmarks below
++  feltGreen: [0.04, 0.32, 0.16],
++  chipRed: [0.72, 0.08, 0.1],
++  chipWhite: [0.92, 0.92, 0.88],
++  chipBlue: [0.08, 0.2, 0.65],
++  chipBlack: [0.06, 0.06, 0.07],
++  gold: [0.85, 0.68, 0.22],
++  goldBright: [1, 0.82, 0.3],
++  neonPink: [0.95, 0.1, 0.55],
++  neonCyan: [0.1, 0.85, 0.9],
++  woodDark: [0.22, 0.13, 0.07]
+ }
+ 
+ /* ------------------------------------------------------------------ *
+@@ -558,10 +576,10 @@ function buildCenter() {
+   // primitive's `color` field allowed. The floating zone-name Sign is kept
+   // for wayfinding, just repositioned to sit above the new arch height.
+   const gates = [
+-    { name: 'Gate North (Mountain)', x: cx, z: z0 + BLOCK - 1.5, yaw: 0 },
+-    { name: 'Gate South (Desert)', x: cx, z: z0 + 1.5, yaw: 0 },
+-    { name: 'Gate East (Jungle)', x: x0 + BLOCK - 1.5, z: cz, yaw: 90 },
+-    { name: 'Gate West (Fortress)', x: x0 + 1.5, z: cz, yaw: 90 }
++    { name: 'Gate North (The Vault)', x: cx, z: z0 + BLOCK - 1.5, yaw: 0 },
++    { name: 'Gate South (Slots Hall)', x: cx, z: z0 + 1.5, yaw: 0 },
++    { name: 'Gate East (Roulette Pit)', x: x0 + BLOCK - 1.5, z: cz, yaw: 90 },
++    { name: 'Gate West (Poker Lounge)', x: x0 + 1.5, z: cz, yaw: 90 }
+   ]
+   const archScale = ARCH_TARGET_HEIGHT / ARCH_NATIVE_HEIGHT
+   for (const g of gates) {
+@@ -585,6 +603,135 @@ function buildCenter() {
+       billboard: 2
+     })
+   }
++
++  buildCasinoLandmarks(x0, z0, cx, cz)
++}
++
++/**
++ * Casino retheme landmarks — one per gate, in the clear "corner strip"
++ * between the plaza edge and the raised board podium (podium spans
++ * x0+8..x0+56 / z0+8..z0+56, and each corner pyramid sits right at a podium
++ * corner with roughly a 7 m footprint — see the pyramid-ring removal note
++ * above buildCenter's gates). Every spot below sits well outside both, and
++ * off the straight walking line from its gate to the board, so nothing here
++ * risks blocking a path or clipping the podium/pyramids.
++ *
++ * These are pure box/cylinder primitives with their own Material component
++ * (unlike the fortress/pyramid/hedge GLBs elsewhere, which carry their own
++ * baked textures this generator can't recolor) — the actual "you're in a
++ * casino now" visual identity, since the walkable zone geometry itself keeps
++ * its original medieval/jungle/desert/ice shapes.
++ */
++function buildCasinoLandmarks(x0, z0, cx, cz) {
++  const addChip = (px, py, pz, color, r = 0.32, h = 0.22) =>
++    add({
++      name: 'Casino Chip Stack',
++      pos: [px, py, pz],
++      scale: [r * 2, h, r * 2],
++      mesh: 'cylinder',
++      color,
++      metallic: 0.1,
++      roughness: 0.4,
++      collider: 0
++    })
++
++  // West strip — Poker Lounge preview: a round felt table with four chip
++  // stacks at its edge.
++  {
++    const tx = x0 + 4
++    const tz = cz - 8
++    add({ name: 'Poker Table Felt', pos: [tx, 0.75, tz], scale: [2.6, 0.12, 2.6], mesh: 'cylinder', color: C.feltGreen, roughness: 0.55, collider: 3 })
++    add({ name: 'Poker Table Rim', pos: [tx, 0.66, tz], scale: [2.9, 0.1, 2.9], mesh: 'cylinder', color: C.woodDark, roughness: 0.5, collider: 0 })
++    add({ name: 'Poker Table Leg', pos: [tx, 0.33, tz], scale: [0.5, 0.66, 0.5], mesh: 'cylinder', color: C.woodDark, collider: 0 })
++    const chipColors = [C.chipRed, C.chipWhite, C.chipBlue, C.chipBlack]
++    for (let i = 0; i < 4; i++) {
++      const ang = i * (Math.PI / 2) + Math.PI / 4
++      addChip(tx + Math.cos(ang) * 1.55, 0.86, tz + Math.sin(ang) * 1.55, chipColors[i])
++    }
++  }
++
++  // East strip — Roulette Pit preview: a wheel disc with alternating
++  // red/black pocket wedges and a gold hub, sat on a low base.
++  {
++    const wx = x0 + BLOCK - 4
++    const wz = cz + 8
++    add({ name: 'Roulette Base', pos: [wx, 0.35, wz], scale: [2.2, 0.7, 2.2], mesh: 'cylinder', color: C.woodDark, collider: 3 })
++    add({ name: 'Roulette Wheel Rim', pos: [wx, 0.74, wz], scale: [2.6, 0.1, 2.6], mesh: 'cylinder', color: C.gold, metallic: 0.4, roughness: 0.3, collider: 0 })
++    const wheelId = add({ name: 'Roulette Wheel', pos: [wx, 0.8, wz], scale: [2.3, 0.06, 2.3], mesh: 'cylinder', color: C.chipBlack, roughness: 0.4, collider: 0 })
++    tweens[wheelId] = {
++      json: {
++        duration: 12000,
++        easingFunction: 0,
++        mode: { $case: 'rotate', rotate: { start: { x: 0, y: 0, z: 0, w: 1 }, end: { x: 0, y: 1, z: 0, w: 6.123233995736766e-17 } } },
++        playing: true
++      }
++    }
++    tweenSequences[wheelId] = {
++      json: {
++        sequence: [{ duration: 12000, easingFunction: 0, mode: { $case: 'rotate', rotate: { start: { x: 0, y: 1, z: 0, w: 6.123233995736766e-17 }, end: { x: 0, y: 1.2246467991473532e-16, z: 0, w: -1 } } } }],
++        loop: 0
++      }
++    }
++    const WEDGES = 12
++    for (let i = 0; i < WEDGES; i++) {
++      const ang = (i / WEDGES) * Math.PI * 2
++      const px = wx + Math.cos(ang) * 1.5
++      const pz = wz + Math.sin(ang) * 1.5
++      add({
++        name: 'Roulette Pocket',
++        pos: [px, 0.84, pz],
++        scale: [0.42, 0.05, 0.6],
++        rot: yawQuat((ang * 180) / Math.PI),
++        color: i % 2 === 0 ? C.chipRed : C.chipBlack,
++        collider: 0
++      })
++    }
++    add({ name: 'Roulette Hub', pos: [wx, 0.87, wz], scale: [0.35, 0.15, 0.35], mesh: 'cylinder', color: C.goldBright, emissive: C.goldBright, emissiveIntensity: 0.6, collider: 0 })
++  }
++
++  // South strip — Slots Hall preview: three cabinets with glowing screens.
++  {
++    const sz = z0 + 4
++    const screenColors = [C.chipRed, C.goldBright, C.neonPink]
++    for (let i = 0; i < 3; i++) {
++      const sx = cx - 10 + i * 2.6
++      add({ name: 'Slot Cabinet', pos: [sx, 1.0, sz], scale: [1.2, 2.0, 0.9], color: C.chipBlack, roughness: 0.4, collider: 3 })
++      add({
++        name: 'Slot Screen',
++        pos: [sx, 1.25, sz - 0.46],
++        scale: [0.8, 0.9, 0.05],
++        color: screenColors[i],
++        emissive: screenColors[i],
++        emissiveIntensity: 0.9,
++        collider: 0
++      })
++      add({ name: 'Slot Lever', pos: [sx + 0.68, 1.6, sz], scale: [0.08, 0.55, 0.08], mesh: 'cylinder', color: C.gold, metallic: 0.5, collider: 0 })
++      add({ name: 'Slot Lever Knob', pos: [sx + 0.68, 1.9, sz], scale: [0.16, 0.16, 0.16], mesh: 'sphere', color: C.chipRed, collider: 0 })
++    }
++  }
++
++  // North strip — The Vault preview: a gold-trimmed vault door flanked by
++  // stacked gold bars.
++  {
++    const vx = cx + 10
++    const vz = z0 + BLOCK - 4
++    add({ name: 'Vault Door', pos: [vx, 1.4, vz], scale: [2.4, 2.8, 0.35], mesh: 'cylinder', color: C.rock, metallic: 0.5, roughness: 0.35, collider: 3 })
++    add({ name: 'Vault Door Rim', pos: [vx, 1.4, vz - 0.02], scale: [2.6, 3.0, 0.1], mesh: 'cylinder', color: C.gold, metallic: 0.5, roughness: 0.3, collider: 0 })
++    add({ name: 'Vault Door Handle', pos: [vx, 1.4, vz + 0.35], scale: [0.55, 0.55, 0.55], mesh: 'cylinder', color: C.goldBright, emissive: C.goldBright, emissiveIntensity: 0.5, collider: 0 })
++    for (let side = -1; side <= 1; side += 2) {
++      for (let stack = 0; stack < 3; stack++) {
++        add({
++          name: 'Gold Bar',
++          pos: [vx + side * 1.7, 0.15 + stack * 0.16, vz + 1.0],
++          scale: [0.5, 0.15, 0.28],
++          color: C.goldBright,
++          metallic: 0.6,
++          roughness: 0.25,
++          collider: stack === 0 ? 3 : 0
++        })
++      }
++    }
++  }
+ }
+ 
+ /* ================================================================== *
+@@ -1876,10 +2023,10 @@ export const ZONE_NAMES = ['NORTH', 'SOUTH', 'EAST', 'WEST'] as const
+ export type ZoneName = (typeof ZONE_NAMES)[number]
+ 
+ export const ZONE_LABEL: Record<ZoneName, string> = {
+-  NORTH: 'Frozen Peaks',
+-  SOUTH: 'Sunken Tomb',
+-  EAST: 'Jungle Labyrinth',
+-  WEST: 'Fortress'
++  NORTH: 'The Vault',
++  SOUTH: 'Slots Hall',
++  EAST: 'Roulette Pit',
++  WEST: 'Poker Lounge'
+ }
+ 
+ /** Candidate tile spawn positions (already offset ~1 m above the surface). */

@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Production / Bundled build outputs
+bin/
+dist/
+export/
+
+# Decentraland runtime & preview cache
+.dcl/
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

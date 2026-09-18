@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production / Bundled build outputs
+bin/
+**/bin/
+dist/
+**/dist/
+export/
+**/export/
+
+# Decentraland runtime & preview cache
+.dcl/
+**/.dcl/
+
+# Archive / compressed files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary directories
+scratch/
+tmp/
