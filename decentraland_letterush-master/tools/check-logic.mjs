@@ -565,15 +565,15 @@ console.log('\ncomposite')
     `mobile culls ${cullableCount} of ${Object.keys(renderers).length} rendered entities`,
     cullableCount > Object.keys(renderers).length * 0.2
   )
-  // The things a player sees on the horizon must survive culling. 'Snow Peak'
-  // used to be a separate needle for the north backdrop's own primitive cones
-  // — now those and the corner massifs are the same GLB-based 'Mountain'
-  // entity (see addMountain() in gen-world.mjs), so one needle covers both.
-  // Likewise 'Pyramid Cap' (the SOUTH tomb's old stepped-roof primitives) is
-  // gone now that buildSouth() places a single GLB 'Pyramid' landmark instead
-  // — that name also matches the plaza corners' 'Aztec Pyramid' GLBs, so one
-  // needle still covers every pyramid-shaped landmark in the scene.
-  for (const needle of ['Mountain', 'Pyramid', 'Floor', 'Ground']) {
+  // The things a player sees must survive culling. 'Mountain' and 'Ground'
+  // were needles for the old four-biome scenery (backdrop mountains, named
+  // ground slabs like 'Jungle Ground') — both are gone now that every zone
+  // is a single flat casino floor (buildCasinoZone() in gen-world.mjs), so
+  // they're dropped from this list rather than left to fail forever. The
+  // corner pyramids at the plaza are still real GLB landmarks, and every
+  // floor slab across the whole scene is still consistently named
+  // '...Floor', so those two needles still mean something.
+  for (const needle of ['Pyramid', 'Floor']) {
     check(
       `"${needle}" scenery is exempt from culling`,
       exempt.some((n) => n.indexOf(needle) !== -1)

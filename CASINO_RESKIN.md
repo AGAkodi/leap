@@ -1,69 +1,90 @@
-# Letter Rush → casino reskin, as a patch
+# Letter Rush → one casino floor (not four biomes)
 
-`casino-reskin-source.patch` is a standard git unified diff. Apply it against
-the original `decentraland_letterush-master` project:
+`casino-reskin-source.patch` is a standard git unified diff, cumulative —
+it applies directly to the ORIGINAL `decentraland_letterush-master.zip`,
+you don't need to have applied any earlier patch first.
 
 ```bash
 cd decentraland_letterush-master
 git apply casino-reskin-source.patch   # or: patch -p1 < casino-reskin-source.patch
+mkdir -p assets/models
+cp models/slot_machine.glb assets/models/slot_machine.glb
+cp models/roulette_table.glb assets/models/roulette_table.glb
 npm install                            # if not already done
 npm run gen:world                      # REQUIRED — see below
 npm run check
 ```
 
-## Why `gen:world` has to be re-run
+## What changed from the last patch: this is a full redesign, not a reskin
 
-`tools/gen-world.mjs` is a *source* file for a procedural generator, not the
-scene itself. It writes two build artifacts:
+The earlier version kept the four original biomes (fortress, jungle maze,
+desert pyramid, mountains/ice) and just recolored them — same shapes, casino
+palette. That's not what was asked for. This version removes all of that:
 
-- `assets/scene/main.composite` — the actual entity/component data Decentraland
-  loads
-- `src/generated/layout.ts` — zone labels, spawn tables, etc. consumed by the
-  game code at runtime
+- **Every zone is now the same thing**: a flat casino floor, cycling slot
+  machines / roulette tables / open walkway on a simple grid (8m spacing).
+  No mazes, no mountains, no pyramids, no fortress. One consistent look
+  across the whole map — `buildCasinoZone()` in `tools/gen-world.mjs`
+  replaces the four separate `buildNorth/South/East/West()` functions.
+- **~1,200 lines deleted** from `tools/gen-world.mjs` — every helper that
+  only existed to build one of the old biomes (maze generation, mountain/
+  rock/pine placement, the fortress and pyramid landmark code) is gone.
+- **Game logic untouched.** `addAnchor(zone, x, y, z)` — the actual
+  mechanism that makes a point a valid letter-tile spawn — doesn't care what
+  geometry sits under it or how a player got there. The four zones
+  (NORTH/SOUTH/EAST/WEST) still exist as the same 64x64m quadrants they
+  always were, still feed `TILE_ANCHORS` the same way, still work with
+  `src/tiles.ts`, scoring, the dictionary, staging/submit — none of that
+  code was touched. Only what the zones look like changed.
+- `tools/check-logic.mjs` had two checks updated (not removed to dodge a
+  failure — genuinely rewritten) that were asserting the old biome naming
+  convention ("Mountain" and "Ground" scenery must exist and survive mobile
+  culling). Those scenery types don't exist anymore, so the checks now
+  reflect that; the pyramid and floor culling-exemption checks are
+  untouched and still pass.
 
-The patch changes the generator, but a regenerated `main.composite` is one
-huge single-line JSON blob, so it's excluded from the diff as noise — instead,
-running `npm run gen:world` after applying the patch produces it fresh.
-Skipping this step means the source changes exist but the scene the game
-actually renders is untouched.
+## Why `gen:world` still has to be re-run
 
-## What's in the patch
+Same as before — `tools/gen-world.mjs` is a source file that WRITES
+`assets/scene/main.composite` (the actual scene data) and
+`src/generated/layout.ts`. The patch changes the generator; running it
+produces the actual updated scene. Skipping this step means the source
+changed but the world a player walks into didn't.
 
-**`tools/gen-world.mjs`**
-- Recolored the `C` palette object from medieval/jungle/desert/ice tones to a
-  casino palette, one key at a time, so every existing call site
-  (`slab()`, `addFoundryPlatform()`, etc.) needed zero changes.
-- Renamed the four gates/signs and `ZONE_LABEL`:
-  WEST → Poker Lounge, EAST → Roulette Pit, SOUTH → Slots Hall, NORTH → The Vault.
-- Added `buildCasinoLandmarks()`: four new decorative set-pieces (poker table
-  + chips, a spinning roulette wheel, three glowing slot cabinets, a vault
-  door with gold bars), placed in verified-clear floor space near each gate.
-  These are plain box/cylinder primitives with real, recolorable materials.
+## The two real models
 
-**`src/dictionary.ts` + `src/data/custom-words.ts` (new file)**
-- Added a small supplemental word list (~85 words: the casino terms you
-  listed, e.g. `keno`, `plinko`, `roulette`, `blackjack`, plus general
-  gambling vocabulary), checked before the main 178k-word dictionary on every
-  lookup. Kept separate from the compiled dictionary so it survives a future
-  `npm run gen:dict` regeneration untouched.
+Copy them into `assets/models/` before running `gen:world` (paths above).
+`buildCasinoZone()` throws a clear error at generation time if either file
+is missing — treated as core geometry, not an optional decoration.
 
-**`src/generated/layout.ts`**
-- Included as generated output for reference, but will be overwritten by
-  `npm run gen:world` anyway — no need to hand-apply it.
+| | Slot machine | Roulette table |
+|---|---|---|
+| Triangles | ~10,000 | ~17,000 |
+| Real-world size (w×h×d) | 1.13m × 1.99m × 0.95m | 1.29m × 0.43m × 1.04m |
 
-## What this patch does NOT change, on purpose
-
-The fortress, pyramids, jungle hedges, mountains, and ice platforms are
-external `.glb` models with their own baked-in textures. This generator has
-no material-override path for GLB meshes, so those keep their original
-medieval/jungle/desert/ice *shapes* — only the ground colors, signage, and
-the four new landmarks carry the casino look. Reshaping those landmarks
-themselves needs real casino `.glb` models (poker/slots/roulette-styled),
-which weren't available to source and wire in here.
+Both models' pivots aren't centered on their mesh (checked against each
+file's own glTF bounding box). The vertical offset is corrected in code
+(`SLOT_MACHINE_Y`, `ROULETTE_TABLE_Y`), so both sit on the floor rather than
+floating or half-buried. The horizontal (x/z) position may be off by up to
+~1m from where the code aims — there's a full 8m grid cell of clearance
+around every placement, so this is a "nudge the number if it looks off,"
+not a "will clip through something" issue.
 
 ## Validated before packaging
 
-- `git apply --check` — applies cleanly to a pristine copy
-- `npm run gen:world` (both `--no-models` and full) — 228 entities, no errors
+- `git apply --check` — applies cleanly to a pristine copy of the original zip
+- `npm run gen:world` — 175 entities, no errors, 49 tile anchors per zone
 - `npm run check` (`tools/check-logic.mjs`) — all checks pass
 - `npx tsc --noEmit` — zero type errors
+
+## Still worth an in-client look
+
+- Confirm the two models' actual placement/rotation reads right once you can
+  see them (the x/z nudge above).
+- The roulette table's measured height (0.43m) is short for a standing
+  table — worth checking whether that's intentional or the model expects a
+  separate stand.
+- Walk all four zones once to confirm the open, flat layout feels right —
+  this removed all verticality/parkour, which was a deliberate
+  simplification ("something simple"), not an oversight, but worth
+  confirming it's the amount of simple you wanted.
