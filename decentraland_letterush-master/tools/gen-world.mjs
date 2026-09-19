@@ -82,56 +82,63 @@ const BOARD_Y = 0.28 // top surface of a board cell
 // material regardless of this table — see CASINO_RESKIN.md for what that
 // means and doesn't mean visually.
 const C = {
-  // center / plaza — deep casino-carpet red + gold trim
-  plazaStone: [0.42, 0.06, 0.08],
-  aztecStone: [0.55, 0.48, 0.38],
-  aztecDark: [0.14, 0.09, 0.07],
-  aztecJade: [0.16, 0.55, 0.42],
-  aztecGold: [0.83, 0.66, 0.22],
-  boardFrame: [0.72, 0.55, 0.16],
-  cellNormal: [0.85, 0.79, 0.63],
-  cellDL: [0.55, 0.78, 0.92],
-  cellTL: [0.16, 0.44, 0.78],
-  cellDW: [0.94, 0.55, 0.55],
-  cellTW: [0.83, 0.2, 0.18],
-  cellStar: [0.95, 0.78, 0.25],
-  // EAST — Roulette Pit (was jungle): black/red felt in place of foliage green
-  jungleGround: [0.4, 0.03, 0.05],
-  jungleHedge: [0.13, 0.42, 0.19],
-  jungleHedge2: [0.17, 0.5, 0.24],
-  jungleTrunk: [0.29, 0.21, 0.13],
-  jungleLeaf: [0.2, 0.6, 0.25],
-  jungleStone: [0.35, 0.4, 0.32],
-  // WEST — Poker Lounge (was industrial foundry): green felt + walnut trim
-  indGround: [0.04, 0.28, 0.15],
-  indSteel: [0.45, 0.47, 0.5],
-  indSteelDark: [0.28, 0.3, 0.33],
-  indRust: [0.55, 0.31, 0.16],
-  indYellow: [0.85, 0.68, 0.12],
-  indPipe: [0.38, 0.4, 0.44],
-  // SOUTH — Slots Hall (was desert tomb): warm amber/gold carpet
-  sand: [0.62, 0.42, 0.1],
-  sandstone: [0.78, 0.65, 0.4],
-  sandstoneDark: [0.6, 0.48, 0.29],
-  egyptGold: [0.87, 0.72, 0.28],
-  egyptLapis: [0.4, 0.06, 0.42],
-  // NORTH — The Vault (was ice/snow): cool silver-chrome + sapphire accent
-  snow: [0.78, 0.8, 0.86],
-  ice: [0.55, 0.62, 0.78],
-  iceDeep: [0.08, 0.13, 0.42],
-  rock: [0.42, 0.44, 0.48],
-  rockDark: [0.3, 0.32, 0.36],
-  // Shared casino accent colours for the new procedural landmarks below
-  feltGreen: [0.04, 0.32, 0.16],
+  // center / plaza — deep luxury casino green carpet + gold trim
+  plazaStone: [0.05, 0.22, 0.12],
+  aztecStone: [0.18, 0.28, 0.22],
+  aztecDark: [0.08, 0.14, 0.10],
+  aztecJade: [0.12, 0.45, 0.26],
+  aztecGold: [0.85, 0.70, 0.22],
+  boardFrame: [0.20, 0.12, 0.07],
+  cellNormal: [0.88, 0.85, 0.75],
+  cellDL: [0.35, 0.72, 0.65],
+  cellTL: [0.15, 0.52, 0.45],
+  cellDW: [0.88, 0.65, 0.40],
+  cellTW: [0.75, 0.35, 0.20],
+  cellStar: [0.95, 0.80, 0.25],
+  // EAST — Roulette Pit: blended casino green
+  jungleGround: [0.04, 0.24, 0.14],
+  jungleHedge: [0.08, 0.32, 0.18],
+  jungleHedge2: [0.12, 0.38, 0.22],
+  jungleTrunk: [0.22, 0.14, 0.08],
+  jungleLeaf: [0.10, 0.36, 0.20],
+  jungleStone: [0.16, 0.26, 0.20],
+  // WEST — Poker Lounge: tournament green felt + walnut trim
+  indGround: [0.04, 0.22, 0.12],
+  indSteel: [0.35, 0.42, 0.38],
+  indSteelDark: [0.18, 0.24, 0.20],
+  indRust: [0.45, 0.30, 0.18],
+  indYellow: [0.85, 0.70, 0.20],
+  indPipe: [0.28, 0.34, 0.30],
+  // SOUTH — Slots Hall: blended deep emerald & gold
+  sand: [0.05, 0.24, 0.13],
+  sandstone: [0.40, 0.48, 0.38],
+  sandstoneDark: [0.24, 0.32, 0.24],
+  egyptGold: [0.85, 0.70, 0.22],
+  egyptLapis: [0.10, 0.35, 0.28],
+  // NORTH — The Vault: silver-sage & emerald accents
+  snow: [0.75, 0.85, 0.80],
+  ice: [0.45, 0.68, 0.60],
+  iceDeep: [0.10, 0.32, 0.26],
+  rock: [0.28, 0.36, 0.30],
+  rockDark: [0.16, 0.22, 0.18],
+  // Shared luxury casino accent colours
+  feltGreen: [0.05, 0.38, 0.18],
   chipRed: [0.72, 0.08, 0.1],
   chipWhite: [0.92, 0.92, 0.88],
   chipBlue: [0.08, 0.2, 0.65],
   chipBlack: [0.06, 0.06, 0.07],
   gold: [0.85, 0.68, 0.22],
-  goldBright: [1, 0.82, 0.3],
+  goldBright: [1, 0.85, 0.3],
   neonPink: [0.95, 0.1, 0.55],
   neonCyan: [0.1, 0.85, 0.9],
-  woodDark: [0.22, 0.13, 0.07]
+  woodDark: [0.18, 0.10, 0.06],
+  // Luxury Casino Architecture (matching reference photo)
+  ceilingCream: [0.88, 0.84, 0.76],
+  ceilingBeam: [0.18, 0.11, 0.06],
+  chandelierGlass: [0.95, 0.95, 0.88],
+  chandelierGlow: [1.0, 0.92, 0.70],
+  columnMarble: [0.08, 0.22, 0.14],
+  wallVelvetGreen: [0.04, 0.18, 0.10]
 }
 
 /* ------------------------------------------------------------------ *
@@ -352,12 +359,14 @@ const r3 = (n) => Math.round(n * 1000) / 1000
 const clampWorld = (n, margin = 1) => Math.min(Math.max(n, margin), WORLD - margin)
 
 /** Ground-level floor slab whose TOP surface sits at `top`. */
-function slab(name, cx, cz, sx, sz, top, color, thickness = 0.4) {
+function slab(name, cx, cz, sx, sz, top, color, thickness = 0.4, textureSrc = null, textureTiling = null) {
   return add({
     name,
     pos: [cx, top - thickness / 2, cz],
     scale: [sx, thickness, sz],
     color,
+    textureSrc: textureSrc || undefined,
+    textureTiling: textureTiling || undefined,
     collider: 3
   })
 }
@@ -503,7 +512,7 @@ function buildCenter() {
   const cx = x0 + BLOCK / 2
   const cz = z0 + BLOCK / 2
 
-  slab('Plaza Floor', cx, cz, BLOCK, BLOCK, 0.05, C.plazaStone, 0.5)
+  slab('Plaza Floor', cx, cz, BLOCK, BLOCK, 0.05, C.plazaStone, 0.5, 'assets/textures/casino_carpet_green.png', [8, 8])
 
   // Raised board podium + frame
   slab('Board Podium', cx, cz, BOARD_SPAN + 6, BOARD_SPAN + 6, 0.16, C.aztecDark, 0.4)
@@ -657,37 +666,31 @@ function buildCasinoLandmarks(x0, z0, cx, cz) {
   }
 
   // East strip — Roulette Pit preview: the real roulette-table model
-  // (assets/models/roulette_table.glb). Its own pivot isn't centred on the
-  // mesh (world bbox ~1.29x0.43x1.04 m, offset from origin) — placement
-  // below corrects for its height only; a small x/z nudge once you see it
-  // in-client is expected and safe (there's several metres of clearance on
-  // every side of this spot).
+  // (assets/models/roulette_table.glb). Scaled up so characters can jump over it,
+  // with base sitting at floor level and centered on the station.
   {
-    const wx = x0 + BLOCK - 4
+    const wx = x0 + BLOCK - 5
     const wz = cz + 8
     const id = add({
-      name: 'Roulette Table',
-      pos: [wx, ROULETTE_TABLE_Y, wz],
-      scale: [1, 1, 1],
-      mesh: 'none', // geometry comes from the glTF below, not a primitive
-      collider: 0 // collision comes from the model's own visible mesh (see visibleMeshesCollisionMask below)
+      name: 'Roulette Table Plaza',
+      pos: [wx + ROULETTE_OFFSET_X, ROULETTE_TABLE_Y, wz + ROULETTE_OFFSET_Z],
+      scale: [ROULETTE_TABLE_SCALE, ROULETTE_TABLE_SCALE, ROULETTE_TABLE_SCALE],
+      mesh: 'none',
+      collider: 0
     })
     gltfContainers[id] = { json: { src: ROULETTE_TABLE_MODEL_SRC, visibleMeshesCollisionMask: 3 } }
   }
 
   // South strip — Slots Hall preview: three of the real slot-machine model
-  // (assets/models/slot_machine.glb) in a row, same spacing as the
-  // procedural cabinets they replace. Its pivot sits near the model's
-  // vertical centre (world bbox ~1.13x1.99x0.95 m), so SLOT_MACHINE_Y lifts
-  // it so the cabinet's base — not its middle — sits on the floor.
+  // (assets/models/slot_machine.glb) in a row. Scaled up for grand presence.
   {
     const sz = z0 + 4
     for (let i = 0; i < 3; i++) {
-      const sx = cx - 10 + i * 2.6
+      const sx = cx - 10 + i * 3.0
       const id = add({
-        name: 'Slot Machine',
+        name: `Slot Machine Plaza ${i + 1}`,
         pos: [sx, SLOT_MACHINE_Y, sz],
-        scale: [1, 1, 1],
+        scale: [SLOT_MACHINE_SCALE, SLOT_MACHINE_SCALE, SLOT_MACHINE_SCALE],
         mesh: 'none',
         collider: 0
       })
@@ -750,16 +753,34 @@ function buildCasinoLandmarks(x0, z0, cx, cz) {
  * placement below, so this is a cosmetic nudge, not a collision risk.
  */
 const SLOT_MACHINE_MODEL_SRC = 'assets/models/slot_machine.glb'
-const SLOT_MACHINE_Y = 0.994
-const ROULETTE_TABLE_MODEL_SRC = 'assets/models/roulette_table.glb'
-const ROULETTE_TABLE_Y = 0.181
+const SLOT_MACHINE_SCALE = 1.35
+const SLOT_MACHINE_Y = 0.05 + 0.994 * SLOT_MACHINE_SCALE
 
-/** Metres between prop slots, both axes. */
-const CASINO_GRID_STEP = 8
-/** Keep every prop this far from a zone's own edge — clears the open
- * boundary into CENTER on the inner side, and the outer world edge on the
- * other three sides. */
-const CASINO_GRID_MARGIN = 6
+const ROULETTE_TABLE_MODEL_SRC = 'assets/models/roulette_table.glb'
+// Scaled up by 2.2x so the standing table reaches ~1.0m height (waist height),
+// making it a prime parkour obstacle that players can jump onto and vault over.
+const ROULETTE_TABLE_SCALE = 2.2
+// glTF bounding box offsets: center [1.3739, 0.0349, -0.2715], base y -0.1814.
+// Offsetting by [-1.374 * S, 0.272 * S] centers the visual mesh precisely on [gx, gz].
+const ROULETTE_OFFSET_X = -1.374 * ROULETTE_TABLE_SCALE
+const ROULETTE_OFFSET_Z = 0.272 * ROULETTE_TABLE_SCALE
+const ROULETTE_TABLE_Y = 0.05 + 0.1814 * ROULETTE_TABLE_SCALE
+
+/** Metres between prop slots (14m creates generous wide walkways and prevents jam-packing). */
+const CASINO_GRID_STEP = 14
+/** Margin from zone boundaries (11m leaves open avenues and perimeter clearance). */
+const CASINO_GRID_MARGIN = 11
+
+/** Maps any coordinate on the 192x192 map into the nearest gameplay zone quadrant. */
+function getZoneNameForPos(gx, gz) {
+  const dx = gx - WORLD / 2
+  const dz = gz - WORLD / 2
+  if (Math.abs(dz) >= Math.abs(dx)) {
+    return dz >= 0 ? 'NORTH' : 'SOUTH'
+  } else {
+    return dx >= 0 ? 'EAST' : 'WEST'
+  }
+}
 
 /**
  * One 64x64 m zone: flat casino floor, then a grid of prop slots cycling
@@ -767,71 +788,296 @@ const CASINO_GRID_MARGIN = 6
  * cycle order is offset per zone (via `phase`) purely so all four zones
  * don't line up on an identical pattern — it has no effect on gameplay.
  */
+function addGamingTable(gx, gz) {
+  // Table Pedestal (dark polished walnut)
+  add({
+    name: 'Gaming Table Pedestal',
+    pos: [gx, 0.35, gz],
+    scale: [0.7, 0.7, 0.7],
+    mesh: 'cylinder',
+    color: C.woodDark,
+    metallic: 0.2,
+    roughness: 0.4,
+    collider: 0
+  })
+  // Table Armrest Rim (dark mahogany/walnut padded rim)
+  add({
+    name: 'Gaming Table Rim',
+    pos: [gx, 0.72, gz],
+    scale: [2.6, 0.12, 1.8],
+    color: C.woodDark,
+    metallic: 0.1,
+    roughness: 0.4,
+    collider: 3
+  })
+  // Green Felt surface (tournament green, matching photo tables)
+  add({
+    name: 'Gaming Table Felt',
+    pos: [gx, 0.78, gz],
+    scale: [2.3, 0.04, 1.5],
+    color: C.feltGreen,
+    metallic: 0.0,
+    roughness: 0.8,
+    lift: 0.15,
+    collider: 0
+  })
+  // Gold card dealer shoe / tray
+  add({
+    name: 'Table Chip Tray',
+    pos: [gx - 0.5, 0.83, gz - 0.25],
+    scale: [0.4, 0.08, 0.25],
+    color: C.gold,
+    metallic: 0.7,
+    roughness: 0.3,
+    collider: 0
+  })
+  // High-roller chip stacks
+  const chips = [C.chipRed, C.chipBlack, C.chipBlue, C.chipWhite]
+  for (let c = 0; c < 3; c++) {
+    add({
+      name: 'Table Chips',
+      pos: [gx + 0.3 + c * 0.25, 0.84, gz - 0.2],
+      scale: [0.2, 0.08, 0.2],
+      mesh: 'cylinder',
+      color: chips[c],
+      metallic: 0.2,
+      roughness: 0.4,
+      collider: 0
+    })
+  }
+}
+
 function buildCasinoZone(zoneName, x0, z0, phase = 0) {
   const cx = x0 + BLOCK / 2
   const cz = z0 + BLOCK / 2
-  slab(`${zoneName} Casino Floor`, cx, cz, BLOCK, BLOCK, 0.05, C.plazaStone, 0.5)
+  slab(`${zoneName} Casino Floor`, cx, cz, BLOCK, BLOCK, 0.05, C.plazaStone, 0.5, 'assets/textures/casino_carpet_green.png', [8, 8])
 
-  let i = phase
   for (let gx = x0 + CASINO_GRID_MARGIN; gx <= x0 + BLOCK - CASINO_GRID_MARGIN; gx += CASINO_GRID_STEP) {
     for (let gz = z0 + CASINO_GRID_MARGIN; gz <= z0 + BLOCK - CASINO_GRID_MARGIN; gz += CASINO_GRID_STEP) {
-      const slot = i % 3
-      i++
-      if (slot === 0) {
-        const id = add({
-          name: 'Slot Machine',
-          pos: [gx, SLOT_MACHINE_Y, gz],
-          scale: [1, 1, 1],
-          rot: yawQuat(180),
-          mesh: 'none', // geometry comes from the glTF below, not a primitive
-          collider: 0 // collision comes from the model's own visible mesh (see visibleMeshesCollisionMask below)
-        })
-        gltfContainers[id] = { json: { src: SLOT_MACHINE_MODEL_SRC, visibleMeshesCollisionMask: 3 } }
-        addAnchor(zoneName, gx + 1.4, 0.05, gz) // beside the cabinet, not inside its collider
-      } else if (slot === 1) {
+      const col = Math.round((gx - (x0 + CASINO_GRID_MARGIN)) / CASINO_GRID_STEP)
+      const row = Math.round((gz - (z0 + CASINO_GRID_MARGIN)) / CASINO_GRID_STEP)
+      const slot = (col + row * 4 + phase) % 8
+      const targetZone = getZoneNameForPos(gx, gz)
+
+      if (slot === 0 || slot === 2 || slot === 5 || slot === 7) {
+        // Grand Roulette Table — waist-height (~1.0m), solid collision for jumping onto & over
         const id = add({
           name: 'Roulette Table',
-          pos: [gx, ROULETTE_TABLE_Y, gz],
-          scale: [1, 1, 1],
+          pos: [gx + ROULETTE_OFFSET_X, ROULETTE_TABLE_Y, gz + ROULETTE_OFFSET_Z],
+          scale: [ROULETTE_TABLE_SCALE, ROULETTE_TABLE_SCALE, ROULETTE_TABLE_SCALE],
           mesh: 'none',
           collider: 0
         })
         gltfContainers[id] = { json: { src: ROULETTE_TABLE_MODEL_SRC, visibleMeshesCollisionMask: 3 } }
-        addAnchor(zoneName, gx, 0.05, gz + 1.4)
+        // Tile floats right at table height — jump onto/over the table to grab it!
+        addAnchor(targetZone, gx, 0.05, gz)
+      } else if (slot === 1 || slot === 4 || slot === 6) {
+        // Grand Slot Machine — scaled up 1.35x for prominent arcade stature
+        const id = add({
+          name: 'Slot Machine',
+          pos: [gx, SLOT_MACHINE_Y, gz],
+          scale: [SLOT_MACHINE_SCALE, SLOT_MACHINE_SCALE, SLOT_MACHINE_SCALE],
+          rot: yawQuat(col % 2 === 0 ? 180 : 0),
+          mesh: 'none',
+          collider: 0
+        })
+        gltfContainers[id] = { json: { src: SLOT_MACHINE_MODEL_SRC, visibleMeshesCollisionMask: 3 } }
+        addAnchor(targetZone, gx + 1.6, 0.05, gz)
       } else {
-        // Open walkway tile — no prop, just a spawn point, so tiles aren't
-        // exclusively glued to machines.
-        addAnchor(zoneName, gx, 0.05, gz)
+        // Luxury Green-Felt Gaming Table (matching reference photo)
+        addGamingTable(gx, gz)
+        addAnchor(targetZone, gx, 0.05, gz + 1.4)
       }
     }
   }
 }
 
-/** The four diagonal corner blocks outside the NORTH/SOUTH/EAST/WEST zones
- * — pure backdrop, no gameplay, no anchors. Flat casino floor here too, so
- * there's no leftover mountain/rock scenery visible from anywhere in the
- * world. */
+/** The four diagonal corner blocks outside the NORTH/SOUTH/EAST/WEST zones — fully dressed with casino floor & gaming stations */
 function buildCorners() {
+  const cornerPhases = { SouthWest: 1, SouthEast: 3, NorthWest: 5, NorthEast: 7 }
   for (const corner of CORNERS) {
     const { x0, z0, name } = corner
-    const cx = x0 + BLOCK / 2
-    const cz = z0 + BLOCK / 2
-    slab(`${name} Floor`, cx, cz, BLOCK, BLOCK, 0.05, C.plazaStone, 0.5)
+    buildCasinoZone(name, x0, z0, cornerPhases[name] || 0)
   }
 }
 
+function buildCeilingAndLighting() {
+  const CEILING_Y = 8.8
+  const BEAM_Y = 8.6
+
+  // 1. Coffered Ceiling Panels: 9 large ceiling slabs covering the 3x3 zone grid
+  for (let bx = 0; bx < 3; bx++) {
+    for (let bz = 0; bz < 3; bz++) {
+      const cx = bx * BLOCK + BLOCK / 2
+      const cz = bz * BLOCK + BLOCK / 2
+      add({
+        name: `Casino Ceiling [${bx},${bz}]`,
+        pos: [cx, CEILING_Y, cz],
+        scale: [BLOCK, 0.2, BLOCK],
+        color: C.ceilingCream,
+        roughness: 0.9,
+        collider: 0
+      })
+    }
+  }
+
+  // 2. Coffered ceiling beams: grid of dark walnut beams running across the ceiling
+  for (let x = 16; x < WORLD; x += 32) {
+    add({
+      name: `Ceiling Beam X ${x}`,
+      pos: [x, BEAM_Y, WORLD / 2],
+      scale: [1.2, 0.4, WORLD],
+      color: C.ceilingBeam,
+      roughness: 0.6,
+      collider: 0
+    })
+  }
+  for (let z = 16; z < WORLD; z += 32) {
+    add({
+      name: `Ceiling Beam Z ${z}`,
+      pos: [WORLD / 2, BEAM_Y, z],
+      scale: [WORLD, 0.4, 1.2],
+      color: C.ceilingBeam,
+      roughness: 0.6,
+      collider: 0
+    })
+  }
+
+  // 3. Opulent Glowing Crystal Chandeliers (matching reference photo)
+  const chandelierSpots = [
+    [96 - 16, 7.0, 96 - 16],
+    [96 + 16, 7.0, 96 - 16],
+    [96 - 16, 7.0, 96 + 16],
+    [96 + 16, 7.0, 96 + 16],
+    [96, 7.0, 96 - 36],
+    [96, 7.0, 96 + 36],
+    [96 - 36, 7.0, 96],
+    [96 + 36, 7.0, 96]
+  ]
+
+  for (let idx = 0; idx < chandelierSpots.length; idx++) {
+    const [cx, cy, cz] = chandelierSpots[idx]
+
+    // Outer dark bronze / walnut suspension frame
+    add({
+      name: `Chandelier Frame ${idx}`,
+      pos: [cx, cy + 0.35, cz],
+      scale: [5.2, 0.25, 2.4],
+      color: C.woodDark,
+      metallic: 0.4,
+      roughness: 0.4,
+      collider: 0
+    })
+
+    // Glowing crystal body with warm golden light
+    add({
+      name: `Chandelier Crystal ${idx}`,
+      pos: [cx, cy, cz],
+      scale: [4.6, 0.65, 1.8],
+      color: C.chandelierGlass,
+      emissive: C.chandelierGlow,
+      emissiveIntensity: 2.0,
+      metallic: 0.1,
+      roughness: 0.2,
+      lift: 0.6,
+      collider: 0,
+      light: idx < 4 ? {
+        color: [1.0, 0.88, 0.65],
+        intensity: 2.2,
+        range: 16
+      } : undefined
+    })
+
+    // Gold suspension rods to ceiling
+    for (const hx of [-1.8, 1.8]) {
+      add({
+        name: `Chandelier Rod ${idx}_${hx}`,
+        pos: [cx + hx, (cy + CEILING_Y) / 2, cz],
+        scale: [0.08, CEILING_Y - cy, 0.08],
+        color: C.gold,
+        metallic: 0.8,
+        roughness: 0.2,
+        collider: 0
+      })
+    }
+  }
+
+  // 4. Grand architectural columns / pillars
+  const columnSpots = [
+    [64, 64], [128, 64], [64, 128], [128, 128],
+    [64, 96], [128, 96], [96, 64], [96, 128],
+    [32, 64], [160, 64], [32, 128], [160, 128],
+    [64, 32], [64, 160], [128, 32], [128, 160]
+  ]
+
+  for (const [px, pz] of columnSpots) {
+    add({
+      name: `Column Base [${px},${pz}]`,
+      pos: [px, 0.3, pz],
+      scale: [1.4, 0.6, 1.4],
+      mesh: 'cylinder',
+      color: C.woodDark,
+      metallic: 0.3,
+      roughness: 0.4,
+      collider: 3
+    })
+    add({
+      name: `Column Shaft [${px},${pz}]`,
+      pos: [px, CEILING_Y / 2, pz],
+      scale: [1.0, CEILING_Y - 1.2, 1.0],
+      mesh: 'cylinder',
+      color: C.columnMarble,
+      metallic: 0.2,
+      roughness: 0.5,
+      collider: 3
+    })
+    add({
+      name: `Column Capital [${px},${pz}]`,
+      pos: [px, CEILING_Y - 0.3, pz],
+      scale: [1.4, 0.6, 1.4],
+      mesh: 'cylinder',
+      color: C.gold,
+      metallic: 0.7,
+      roughness: 0.3,
+      collider: 0
+    })
+  }
+}
+
+function buildPerimeterWalls() {
+  const WALL_H = 8.8
+  const halfH = WALL_H / 2
+  const T = 0.6
+  const margin = T / 2
+
+  // North wall
+  add({ name: 'Casino Wall North', pos: [WORLD / 2, halfH, WORLD - margin], scale: [WORLD - T * 2, WALL_H, T], color: C.wallVelvetGreen, roughness: 0.85, collider: 3 })
+  // South wall
+  add({ name: 'Casino Wall South', pos: [WORLD / 2, halfH, margin], scale: [WORLD - T * 2, WALL_H, T], color: C.wallVelvetGreen, roughness: 0.85, collider: 3 })
+  // West wall
+  add({ name: 'Casino Wall West', pos: [margin, halfH, WORLD / 2], scale: [T, WALL_H, WORLD - T * 2], color: C.wallVelvetGreen, roughness: 0.85, collider: 3 })
+  // East wall
+  add({ name: 'Casino Wall East', pos: [WORLD - margin, halfH, WORLD / 2], scale: [T, WALL_H, WORLD - T * 2], color: C.wallVelvetGreen, roughness: 0.85, collider: 3 })
+
+  // Wainscoting baseboard molding
+  const BASE_H = 1.6
+  add({ name: 'Wall Base North', pos: [WORLD / 2, BASE_H / 2, WORLD - margin - 0.15], scale: [WORLD - T * 2, BASE_H, 0.3], color: C.woodDark, roughness: 0.5, collider: 0 })
+  add({ name: 'Wall Base South', pos: [WORLD / 2, BASE_H / 2, margin + 0.15], scale: [WORLD - T * 2, BASE_H, 0.3], color: C.woodDark, roughness: 0.5, collider: 0 })
+  add({ name: 'Wall Base West', pos: [margin + 0.15, BASE_H / 2, WORLD / 2], scale: [0.3, BASE_H, WORLD - T * 2], color: C.woodDark, roughness: 0.5, collider: 0 })
+  add({ name: 'Wall Base East', pos: [WORLD - margin - 0.15, BASE_H / 2, WORLD / 2], scale: [0.3, BASE_H, WORLD - T * 2], color: C.woodDark, roughness: 0.5, collider: 0 })
+
+  // Gold accent trim molding
+  add({ name: 'Wall Trim North', pos: [WORLD / 2, BASE_H + 0.05, WORLD - margin - 0.16], scale: [WORLD - T * 2, 0.1, 0.2], color: C.gold, metallic: 0.6, collider: 0 })
+  add({ name: 'Wall Trim South', pos: [WORLD / 2, BASE_H + 0.05, margin + 0.16], scale: [WORLD - T * 2, 0.1, 0.2], color: C.gold, metallic: 0.6, collider: 0 })
+  add({ name: 'Wall Trim West', pos: [margin + 0.16, BASE_H + 0.05, WORLD / 2], scale: [0.2, 0.1, WORLD - T * 2], color: C.gold, metallic: 0.6, collider: 0 })
+  add({ name: 'Wall Trim East', pos: [WORLD - margin - 0.16, BASE_H + 0.05, WORLD / 2], scale: [0.2, 0.1, WORLD - T * 2], color: C.gold, metallic: 0.6, collider: 0 })
+}
 
 /* ================================================================== *
  * Optional GLB dressing, scattered along the tile anchors of each zone
  * ================================================================== */
 function buildDecoration() {
   if (!WITH_MODELS) return
-
-  // The 70-instance EAST ground scatter (fern/jungle-plant-06/parque, later
-  // just jungle-plant-06) and the WEST/SOUTH/NORTH prop scatter were all
-  // dropped per explicit request — too busy/ugly. The only jungle-plant-06
-  // left is the hard-capped-at-3 wall sprinkle up in buildEast() (see
-  // MAX_WALL_PLANTS). Nothing left to scatter here for now.
 }
 
 /* ================================================================== *
@@ -843,6 +1089,8 @@ buildCasinoZone('WEST', ZONES.WEST.x0, ZONES.WEST.z0, 1)
 buildCasinoZone('SOUTH', ZONES.SOUTH.x0, ZONES.SOUTH.z0, 2)
 buildCasinoZone('NORTH', ZONES.NORTH.x0, ZONES.NORTH.z0, 0)
 buildCorners()
+buildCeilingAndLighting()
+buildPerimeterWalls()
 buildDecoration()
 
 const components = []
