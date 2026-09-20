@@ -10,6 +10,8 @@
     "gen:dict": "node tools/gen-dictionary.mjs",
     "check": "node tools/check-logic.mjs",
     "verify": "npm run gen:world && npm run check && npm run build",
+    "export": "node tools/export-static.mjs",
+    "build:vercel": "npm run gen:world && npm run check && npm run build && npm run export",
     "upgrade-sdk": "npm install --save-dev @dcl/sdk@latest",
     "upgrade-sdk-next": "npm install --save-dev @dcl/sdk@next"
   },
