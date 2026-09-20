@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LetteRush — Decentraland</title>
+  <title>LetteRush — Decentraland Web</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -56,26 +56,18 @@
       line-height: 1.5;
       margin: 0 0 20px 0;
     }
-    .tip-box {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 24px;
-      text-align: left;
-      font-size: 14px;
-      color: #e2e8f0;
-      line-height: 1.5;
-    }
-    .tip-box strong {
-      color: #38bdf8;
-    }
-    .tip-box span.highlight {
-      background: rgba(99, 102, 241, 0.3);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: #ffffff;
+    .feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
       font-weight: 600;
+      margin-bottom: 24px;
     }
     .status {
       display: flex;
@@ -118,28 +110,28 @@
 </head>
 <body>
   <div class="card">
-    <div class="badge">Decentraland Realm</div>
+    <div class="badge">Decentraland Web Client</div>
     <h1>LetteRush</h1>
-    <p class="desc">Multiplayer casino floor & word hunt in Decentraland.</p>
+    <p class="desc">Multiplayer casino floor & word challenge.</p>
 
-    <div class="tip-box">
-      <strong>💡 No App Download Required!</strong><br>
-      When Decentraland opens, look beneath the big download button and click <span class="highlight">"Continue in Browser"</span> or <span class="highlight">"Explore as Guest"</span> to play directly in your browser.
+    <div class="feature-pill">
+      ✓ Runs 100% in Browser (No App Download Needed)
     </div>
 
     <div class="status">
       <div class="spinner"></div>
-      <span>Launching game in browser...</span>
+      <span>Loading WebAssembly engine...</span>
     </div>
-    <a id="playLink" class="btn" href="#">Launch Game Now</a>
+    <a id="playLink" class="btn" href="#">Play In Browser Now</a>
   </div>
   <script>
     const realmUrl = window.location.origin + '/letterush/about';
-    const targetUrl = 'https://play.decentraland.org/?realm=' + encodeURIComponent(realmUrl);
+    // Direct browser WebAssembly/WebGPU client (bypasses the Genesis Plaza download app portal)
+    const targetUrl = 'https://decentraland.org/bevy-web/?realm=' + encodeURIComponent(realmUrl) + '&position=0,0';
     document.getElementById('playLink').href = targetUrl;
     setTimeout(() => {
       window.location.href = targetUrl;
-    }, 2200);
+    }, 1200);
   </script>
 </body>
 </html>
