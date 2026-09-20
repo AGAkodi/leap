@@ -859,7 +859,7 @@ function buildCasinoZone(zoneName, x0, z0, phase = 0) {
       const slot = (col + row * 4 + phase) % 8
       const targetZone = getZoneNameForPos(gx, gz)
 
-      if (slot === 0 || slot === 2 || slot === 5 || slot === 7) {
+      if (slot === 0) {
         // Grand Roulette Table — waist-height (~1.0m), solid collision for jumping onto & over
         const id = add({
           name: 'Roulette Table',
@@ -871,7 +871,7 @@ function buildCasinoZone(zoneName, x0, z0, phase = 0) {
         gltfContainers[id] = { json: { src: ROULETTE_TABLE_MODEL_SRC, visibleMeshesCollisionMask: 3 } }
         // Tile floats right at table height — jump onto/over the table to grab it!
         addAnchor(targetZone, gx, 0.05, gz)
-      } else if (slot === 1 || slot === 4 || slot === 6) {
+      } else if (slot === 4) {
         // Grand Slot Machine — scaled up 1.35x for prominent arcade stature
         const id = add({
           name: 'Slot Machine',

@@ -538,9 +538,9 @@ function MobileControlsHint(props: { t: Theme }) {
  */
 const OUTLINE = Color4.create(0, 0, 0, 1)
 const OUTLINE_OFFSETS: [number, number][] = [
-  [-1, -1], [0, -1], [1, -1],
+  [0, -1],
   [-1, 0], [1, 0],
-  [-1, 1], [0, 1], [1, 1]
+  [0, 1]
 ]
 
 function OutlinedLabel(props: {

@@ -114,7 +114,7 @@ function cull(): void {
     // Only write when the state actually flips — a no-op write is still a write.
     if (shouldShow === item.visible) continue
     item.visible = shouldShow
-    VisibilityComponent.createOrReplace(item.entity, { visible: shouldShow })
+    VisibilityComponent.createOrReplace(item.entity, { visible: shouldShow, propagateToChildren: true })
   }
 }
 
@@ -122,6 +122,6 @@ function restoreAll(): void {
   for (const item of cullable) {
     if (item.visible) continue
     item.visible = true
-    VisibilityComponent.createOrReplace(item.entity, { visible: true })
+    VisibilityComponent.createOrReplace(item.entity, { visible: true, propagateToChildren: true })
   }
 }

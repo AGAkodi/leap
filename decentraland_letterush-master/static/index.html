@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LetteRush — Decentraland Web</title>
+  <title>LetteRush — Decentraland Multiplayer</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: #0b0f19;
+      background: radial-gradient(circle at 50% 20%, #172036 0%, #0b0f19 75%);
       color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       display: flex;
@@ -20,31 +20,31 @@
       padding: 24px;
     }
     .card {
-      background: rgba(23, 32, 54, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
-      padding: 36px 30px;
-      max-width: 520px;
+      background: rgba(23, 32, 54, 0.88);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      padding: 38px 32px;
+      max-width: 540px;
       width: 100%;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8);
     }
     .badge {
       display: inline-block;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 9999px;
       background: rgba(99, 102, 241, 0.15);
       border: 1px solid rgba(99, 102, 241, 0.35);
       color: #a5b4fc;
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
     }
     h1 {
-      margin: 0 0 10px 0;
-      font-size: 32px;
+      margin: 0 0 8px 0;
+      font-size: 34px;
       font-weight: 800;
       background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
       -webkit-background-clip: text;
@@ -54,85 +54,125 @@
       color: #94a3b8;
       font-size: 15px;
       line-height: 1.5;
-      margin: 0 0 20px 0;
+      margin: 0 0 22px 0;
     }
-    .feature-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      color: #6ee7b7;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       margin-bottom: 24px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 22px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.45);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -5px rgba(99, 102, 241, 0.65);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+    .perf-box {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #94a3b8;
+    }
+    .perf-box strong {
+      color: #f1f5f9;
     }
     .status {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      color: #cbd5e1;
-      font-size: 14px;
+      gap: 8px;
+      margin-top: 18px;
+      color: #64748b;
+      font-size: 13px;
     }
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(129, 140, 248, 0.25);
-      border-top-color: #818cf8;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 14px 24px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: white;
+    .status a {
+      color: #818cf8;
       text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      cursor: pointer;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 28px -5px rgba(99, 102, 241, 0.6);
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="badge">Decentraland Web Client</div>
+    <div class="badge">Decentraland Realm</div>
     <h1>LetteRush</h1>
-    <p class="desc">Multiplayer casino floor & word challenge.</p>
+    <p class="desc">High-speed casino parkour &amp; live word challenge.</p>
 
-    <div class="feature-pill">
-      ✓ Runs 100% in Browser (No App Download Needed)
+    <div class="actions">
+      <a id="playBrowserLink" class="btn btn-primary" href="#">
+        <span>Play in Browser (Web Client)</span>
+      </a>
+      <a id="playDesktopLink" class="btn btn-secondary" href="#">
+        <span>⚡ Launch in Desktop App (Smoothest 60+ FPS)</span>
+      </a>
+    </div>
+
+    <div class="perf-box">
+      <strong>⚡ Performance Tips to Avoid Browser Lag:</strong><br>
+      • In Chrome / Edge / Brave: Ensure <em>"Use graphics acceleration when available"</em> is enabled in your browser settings (<code>chrome://settings/system</code>).<br>
+      • If your browser stutters, click <strong>"Launch in Desktop App"</strong> above for native full-speed 60+ FPS gameplay with zero browser throttling.
     </div>
 
     <div class="status">
-      <div class="spinner"></div>
-      <span>Connecting to realm...</span>
+      <span id="countdownText">Connecting in 3s...</span>
     </div>
-    <a id="playLink" class="btn" href="#">Play In Browser Now</a>
   </div>
+
   <script>
     const origin = window.location.origin;
-    // preview=true tells Decentraland this is an external HTTP realm rather than an on-chain DAO world name
-    const targetUrl = 'https://decentraland.org/bevy-web/?preview=true&realm=' + encodeURIComponent(origin) + '&position=0,0';
-    document.getElementById('playLink').href = targetUrl;
-    setTimeout(() => {
-      window.location.href = targetUrl;
-    }, 1500);
+    const webUrl = 'https://decentraland.org/bevy-web/?preview=true&realm=' + encodeURIComponent(origin) + '&position=0,0';
+    const desktopUrl = 'decentraland://preview=true&realm=' + encodeURIComponent(origin) + '&position=0,0';
+
+    document.getElementById('playBrowserLink').href = webUrl;
+    document.getElementById('playDesktopLink').href = desktopUrl;
+
+    let secondsLeft = 3;
+    const textEl = document.getElementById('countdownText');
+    const timer = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft <= 0) {
+        clearInterval(timer);
+        window.location.href = webUrl;
+      } else {
+        textEl.textContent = 'Connecting in ' + secondsLeft + 's...';
+      }
+    }, 1000);
+
+    // Cancel automatic redirect if user interacts with the buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', () => clearInterval(timer));
+    });
   </script>
 </body>
 </html>

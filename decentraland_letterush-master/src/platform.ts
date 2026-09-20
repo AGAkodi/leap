@@ -15,7 +15,7 @@
  */
 
 import { engine, UiCanvasInformation } from '@dcl/sdk/ecs'
-import { getPlatform, isMobile } from '@dcl/sdk/platform'
+import { getPlatform, isMobile, isWeb } from '@dcl/sdk/platform'
 
 const DESIGN_WIDTH_DESKTOP = 1920
 const DESIGN_WIDTH_MOBILE = 720
@@ -49,8 +49,9 @@ export type Theme = {
 }
 
 /**
- * Per-platform performance budget. Phones get lower system tick rates and
- * distance culling of decorative geometry; desktop runs everything at full rate.
+ * Per-platform performance budget. Phones and web browsers get lower system
+ * tick rates and distance culling of decorative geometry; native desktop runs
+ * with maximum draw distance.
  */
 export type Quality = {
   /** Seconds between tile spin/bob updates. 0 = every frame. */
@@ -75,8 +76,18 @@ const MOBILE_QUALITY: Quality = {
   boardInterval: 0.5,
   inventoryInterval: 0.35,
   targetInterval: 0.1,
-  cullRadius: 75,
-  cullInterval: 1
+  cullRadius: 55,
+  cullInterval: 0.8
+}
+
+const WEB_QUALITY: Quality = {
+  spinInterval: 0.08,
+  pickupInterval: 0.15,
+  boardInterval: 0.35,
+  inventoryInterval: 0.25,
+  targetInterval: 0.08,
+  cullRadius: 48,
+  cullInterval: 0.4
 }
 
 const DESKTOP_QUALITY: Quality = {
@@ -85,12 +96,14 @@ const DESKTOP_QUALITY: Quality = {
   boardInterval: 0.25,
   inventoryInterval: 0.2,
   targetInterval: 0.05,
-  cullRadius: 75,
+  cullRadius: 65,
   cullInterval: 0.5
 }
 
 export function quality(): Quality {
-  return isMobile() ? MOBILE_QUALITY : DESKTOP_QUALITY
+  if (isMobile()) return MOBILE_QUALITY
+  if (isWeb()) return WEB_QUALITY
+  return DESKTOP_QUALITY
 }
 
 let resolved = false
