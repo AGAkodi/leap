@@ -101,6 +101,7 @@
       border-radius: 10px;
       box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
     }
     .btn:hover {
       transform: translateY(-2px);
@@ -120,18 +121,18 @@
 
     <div class="status">
       <div class="spinner"></div>
-      <span>Loading WebAssembly engine...</span>
+      <span>Connecting to realm...</span>
     </div>
     <a id="playLink" class="btn" href="#">Play In Browser Now</a>
   </div>
   <script>
-    const realmUrl = window.location.origin + '/letterush/about';
-    // Direct browser WebAssembly/WebGPU client (bypasses the Genesis Plaza download app portal)
-    const targetUrl = 'https://decentraland.org/bevy-web/?realm=' + encodeURIComponent(realmUrl) + '&position=0,0';
+    const origin = window.location.origin;
+    // preview=true tells Decentraland this is an external HTTP realm rather than an on-chain DAO world name
+    const targetUrl = 'https://decentraland.org/bevy-web/?preview=true&realm=' + encodeURIComponent(origin) + '&position=0,0';
     document.getElementById('playLink').href = targetUrl;
     setTimeout(() => {
       window.location.href = targetUrl;
-    }, 1200);
+    }, 1500);
   </script>
 </body>
 </html>

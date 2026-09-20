@@ -19,6 +19,13 @@ execSync(
   { stdio: 'inherit' }
 )
 
+// Ensure /about is also accessible at root /about as well as /letterush/about
+const aboutSrc = resolve('dist/letterush/about')
+if (existsSync(aboutSrc)) {
+  copyFileSync(aboutSrc, resolve('dist/about'))
+  console.log('Copied realm descriptor to dist/about')
+}
+
 const landingSrc = resolve('static/index.html')
 const landingDst = resolve('dist/index.html')
 if (existsSync(landingSrc)) {
