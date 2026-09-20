@@ -20,12 +20,12 @@
       padding: 24px;
     }
     .card {
-      background: rgba(23, 32, 54, 0.75);
+      background: rgba(23, 32, 54, 0.85);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 20px;
-      padding: 40px 32px;
-      max-width: 500px;
+      padding: 36px 30px;
+      max-width: 520px;
       width: 100%;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
     }
@@ -43,25 +43,46 @@
       letter-spacing: 0.05em;
     }
     h1 {
-      margin: 0 0 12px 0;
+      margin: 0 0 10px 0;
       font-size: 32px;
       font-weight: 800;
       background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    p {
+    p.desc {
       color: #94a3b8;
       font-size: 15px;
-      line-height: 1.6;
-      margin: 0 0 24px 0;
+      line-height: 1.5;
+      margin: 0 0 20px 0;
+    }
+    .tip-box {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      text-align: left;
+      font-size: 14px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+    .tip-box strong {
+      color: #38bdf8;
+    }
+    .tip-box span.highlight {
+      background: rgba(99, 102, 241, 0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #ffffff;
+      font-weight: 600;
     }
     .status {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       color: #cbd5e1;
       font-size: 14px;
     }
@@ -99,12 +120,18 @@
   <div class="card">
     <div class="badge">Decentraland Realm</div>
     <h1>LetteRush</h1>
-    <p>Multiplayer casino floor & word challenge in Decentraland.</p>
+    <p class="desc">Multiplayer casino floor & word hunt in Decentraland.</p>
+
+    <div class="tip-box">
+      <strong>💡 No App Download Required!</strong><br>
+      When Decentraland opens, look beneath the big download button and click <span class="highlight">"Continue in Browser"</span> or <span class="highlight">"Explore as Guest"</span> to play directly in your browser.
+    </div>
+
     <div class="status">
       <div class="spinner"></div>
-      <span>Launching Decentraland Explorer...</span>
+      <span>Launching game in browser...</span>
     </div>
-    <a id="playLink" class="btn" href="#">Click here if not redirected</a>
+    <a id="playLink" class="btn" href="#">Launch Game Now</a>
   </div>
   <script>
     const realmUrl = window.location.origin + '/letterush/about';
@@ -112,7 +139,7 @@
     document.getElementById('playLink').href = targetUrl;
     setTimeout(() => {
       window.location.href = targetUrl;
-    }, 1200);
+    }, 2200);
   </script>
 </body>
 </html>
